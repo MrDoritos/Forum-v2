@@ -1,0 +1,15 @@
+c:\Users\Ian\source\repos\Forum2\Forum.Tests\bin\Debug\Forum.Tests.exe.config
+c:\Users\Ian\source\repos\Forum2\Forum.Tests\bin\Debug\Forum.Tests.exe
+c:\Users\Ian\source\repos\Forum2\Forum.Tests\bin\Debug\Forum.Tests.pdb
+c:\Users\Ian\source\repos\Forum2\Forum.Tests\bin\Debug\Forum2.dll
+c:\Users\Ian\source\repos\Forum2\Forum.Tests\bin\Debug\HtmlAgilityPack.dll
+c:\Users\Ian\source\repos\Forum2\Forum.Tests\bin\Debug\Http.dll
+c:\Users\Ian\source\repos\Forum2\Forum.Tests\bin\Debug\Forum2.pdb
+c:\Users\Ian\source\repos\Forum2\Forum.Tests\bin\Debug\HtmlAgilityPack.pdb
+c:\Users\Ian\source\repos\Forum2\Forum.Tests\bin\Debug\HtmlAgilityPack.xml
+c:\Users\Ian\source\repos\Forum2\Forum.Tests\bin\Debug\Http.pdb
+c:\Users\Ian\source\repos\Forum2\Forum.Tests\obj\Debug\Forum.Tests.csprojResolveAssemblyReference.cache
+c:\Users\Ian\source\repos\Forum2\Forum.Tests\obj\Debug\Forum.Tests.csproj.CoreCompileInputs.cache
+c:\Users\Ian\source\repos\Forum2\Forum.Tests\obj\Debug\Forum.Tests.csproj.CopyComplete
+c:\Users\Ian\source\repos\Forum2\Forum.Tests\obj\Debug\Forum.Tests.exe
+c:\Users\Ian\source\repos\Forum2\Forum.Tests\obj\Debug\Forum.Tests.pdb
