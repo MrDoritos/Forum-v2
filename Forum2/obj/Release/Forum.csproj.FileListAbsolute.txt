@@ -1,0 +1,5 @@
+c:\users\ian\source\repos\Forum2\Forum2\bin\Release\Forum2.dll
+c:\users\ian\source\repos\Forum2\Forum2\bin\Release\Forum2.pdb
+c:\users\ian\source\repos\Forum2\Forum2\obj\Release\Forum.csproj.CoreCompileInputs.cache
+c:\users\ian\source\repos\Forum2\Forum2\obj\Release\Forum2.dll
+c:\users\ian\source\repos\Forum2\Forum2\obj\Release\Forum2.pdb
