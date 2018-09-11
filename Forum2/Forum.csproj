@@ -45,14 +45,18 @@
     <Compile Include="Items\Thread.cs" />
     <Compile Include="Items\ThreadItems\Comment.cs" />
     <Compile Include="Items\ThreadItems\Header.cs" />
+    <Compile Include="Items\UserThreadStruct.cs" />
     <Compile Include="Items\User.cs" />
+    <Compile Include="Items\UserStruct.cs" />
     <Compile Include="Items\UserThread.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Requests\LoginRequest.cs" />
     <Compile Include="Requests\Request.cs" />
     <Compile Include="Requests\ThreadRequest.cs" />
+    <Compile Include="ThreadManagement\ThreadDatabase.cs" />
     <Compile Include="ThreadManagement\ThreadManager.cs" />
     <Compile Include="ContentManagement\ContentManager.cs" />
+    <Compile Include="UserManagement\UserDatabase.cs" />
     <Compile Include="UserManagement\UserManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

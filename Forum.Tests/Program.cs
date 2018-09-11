@@ -26,10 +26,12 @@ namespace Forum.Tests
         static void Main(string[] args)
         {
             ToMainPage.AppendChild(HtmlNode.CreateNode("<h1>Forum</h1>"));
-            forum = new Forum2.Forum();            
+            forum = new Forum2.Forum("users.xml", "threads.xml");            
             forum.ThreadManager.AddThread(new Forum2.Items.User(), new Forum2.Items.ThreadItems.Header("New forum, new threads", "First thread on forum redesign"));
             forum.ThreadManager.AddThread(new Forum2.Items.User(), new Forum2.Items.ThreadItems.Header("Testing thread enumerability", "yes test"));
             forum.ContentManager.AddContent("icon.png", "", Content.ContentTypes.IMGPNG);
+            if (!forum.UserManager.Exists("MrDoritos"))
+                forum.UserManager.AddUser("MrDoritos", "coolguy");
             var thread = forum.ThreadManager.GetThread(1);
             thread.AddComment(new Forum2.Items.ThreadItems.Comment("Yes", new Forum2.Items.User(), DateTime.Now, 1));
             while (true)
@@ -48,7 +50,7 @@ namespace Forum.Tests
                 }
             }
             Console.WriteLine("Server started");
-            while (server.Connected) { Task.Delay(100).Wait(); }
+            while (server.Connected) { forum.UserManager.Save(); Console.WriteLine("Saved Databases"); Task.Delay(600000).Wait(); }
             Console.WriteLine("Server stopped\r\nPress any key to continue...");
             Console.ReadKey();
         }
@@ -349,7 +351,7 @@ namespace Forum.Tests
             System.IO.MemoryStream memoryStream = new System.IO.MemoryStream();
             doc.Save(memoryStream);
             return memoryStream.ToArray();
-        }
+        }        
 
         static HtmlDocument GetLoginPage(LoginFailType loginFailType, string presetusername = "", string presetpassword = "")
         {
@@ -509,7 +511,7 @@ namespace Forum.Tests
                 HtmlNode authordiv = HtmlNode.CreateNode("<div style=\"display: inline-block; width: 50%;\" />");
                 HtmlNode authorp = HtmlNode.CreateNode("<p style=\"margin: 5px; \"/>");
                 HtmlNode author = HtmlNode.CreateNode("<strong />");
-                author.AppendChild(HtmlTextNode.CreateNode(hah.HtmlEncode(thread.author.username)));
+                author.AppendChild(HtmlTextNode.CreateNode(hah.HtmlEncode(thread.author.ToString("[Deleted]"))));
                 authorp.AppendChild(author);
                 authordiv.AppendChild(authorp);
 
@@ -564,7 +566,7 @@ namespace Forum.Tests
             HtmlNode authordiv = HtmlNode.CreateNode("<div style=\"display: inline-block; width: 50%;\" />");
             HtmlNode authorp = HtmlNode.CreateNode("<p style=\"margin: 5px; \"/>");
             HtmlNode author = HtmlNode.CreateNode("<strong />");
-            author.AppendChild(HtmlTextNode.CreateNode(hah.HtmlEncode(thread.author.username)));
+            author.AppendChild(HtmlTextNode.CreateNode(hah.HtmlEncode(thread.author.ToString("[Deleted]"))));
             authorp.AppendChild(author);
             authordiv.AppendChild(authorp);
 
@@ -613,7 +615,7 @@ namespace Forum.Tests
                 HtmlNode authordiv = HtmlNode.CreateNode("<div style=\"display: inline-block; width: 50%;\" />");
                 HtmlNode authorp = HtmlNode.CreateNode("<p style=\"margin: 5px; \"/>");
                 HtmlNode author = HtmlNode.CreateNode("<strong />");
-                author.AppendChild(HtmlTextNode.CreateNode(hah.HtmlEncode(message.Author.username)));
+                author.AppendChild(HtmlTextNode.CreateNode(hah.HtmlEncode(message.Author.ToString(" [Deleted] "))));
                 authorp.AppendChild(author);
                 authordiv.AppendChild(authorp);
 

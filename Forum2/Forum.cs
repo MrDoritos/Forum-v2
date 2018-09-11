@@ -12,6 +12,7 @@ namespace Forum2
     public class Forum
     {
         public Forum() { UserManager = new UserManager(); ThreadManager = new ThreadManager(); ContentManager = new ContentManager(); }
+        public Forum(string userdatabasename, string threaddatabasename) { UserManager = new UserManager(userdatabasename); ThreadManager = new ThreadManager(); ContentManager = new ContentManager(); }
         public UserManager UserManager;
         public ThreadManager ThreadManager;
         public ContentManager ContentManager;

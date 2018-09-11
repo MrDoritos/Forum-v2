@@ -9,6 +9,7 @@ namespace Forum2.Items
     public class UserThread
     {
         public UserThread(int id) { ThreadId = id; }
+        public UserThread(int id, DateTime lastSeen) { ThreadId = id; LastSeen = lastSeen; }
         public int ThreadId { get; private set; }
         public DateTime LastSeen { get; private set; } = DateTime.Now;
         public void Update() { LastSeen = DateTime.Now; }

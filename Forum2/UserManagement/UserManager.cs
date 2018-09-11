@@ -9,11 +9,15 @@ namespace Forum2.UserManagement
 {
     public class UserManager
     {
-        private List<User> _users;
+        //private List<User> _users;
+
+        private UserDatabase _users;
         
         public int NextId { get => GetNextId(); }
 
-        public UserManager() { _users = new List<User>() { new User("anonymous", "", 1) }; }
+        public UserManager() { _users = new UserDatabase() { new User() }; }
+
+        public UserManager(string databaseFilename) { _users = UserDatabase.TryParse(databaseFilename); }
 
         private void AddUser(User user)
         {
@@ -101,8 +105,18 @@ namespace Forum2.UserManagement
         {
             if (token == null || token == "") return User.Anonymous;
 
-            if (TokenExists(token)) { return GetUserByToken(token); }
+            if (TokenExists(token)) { var user = GetUserByToken(token); if (user.IsDeleted) return User.Anonymous; else return user; }
             return User.Anonymous;
+        }
+
+        public void Save()
+        {
+            _users.Save("users.xml");
+        }
+
+        public void Save(string filename)
+        {
+            _users.Save(filename);
         }
     }
 }
