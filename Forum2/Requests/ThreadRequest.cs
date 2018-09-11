@@ -31,6 +31,7 @@ namespace Forum2.Requests
             DeleteThread = 3,
             View = 4,
             Invalid = 5,
+            InvalidComment = 6,
         }
     }
 }

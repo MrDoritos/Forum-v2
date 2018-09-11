@@ -20,9 +20,12 @@ namespace Forum.Tests
     {
         static Server server;
         static Forum2.Forum forum;
-        
+
+        static readonly HtmlNode ToMainPage = HtmlNode.CreateNode("<div onclick=\"window.location='/'\" style=\"cursor:pointer; \" />");
+
         static void Main(string[] args)
         {
+            ToMainPage.AppendChild(HtmlNode.CreateNode("<h1>Forum</h1>"));
             forum = new Forum2.Forum();            
             forum.ThreadManager.AddThread(new Forum2.Items.User(), new Forum2.Items.ThreadItems.Header("New forum, new threads", "First thread on forum redesign"));
             forum.ThreadManager.AddThread(new Forum2.Items.User(), new Forum2.Items.ThreadItems.Header("Testing thread enumerability", "yes test"));
@@ -78,6 +81,7 @@ namespace Forum.Tests
                 else if (req.Type == ThreadRequest.RequestTypes.View) { if (req.User.username != "anonymous") req.User.Update(req.RequestThread.id); if (req.RequestThread.IsDeleted) SendRedirect("/", client); else SendThreadPage(req.RequestThread, client, req.User); }
                 else if (req.Type == ThreadRequest.RequestTypes.DeleteThread) { if (req.User.username == "MrDoritos" || req.User == req.RequestThread.author) { forum.ThreadManager.Delete(req.RequestThread.id); SendRedirect("/", client); } }
                 else if (req.Type == ThreadRequest.RequestTypes.AddComment) { forum.ThreadManager.AddComment(req.RequestThread, req.User, req.Text); SendRedirect($"/t{req.RequestThread.id}", client); }
+                else if (req.Type == ThreadRequest.RequestTypes.InvalidComment) { SendRedirect($"/t{req.RequestThread.id}", client); }
                 
             }            
             else if (uri == "login")
@@ -178,9 +182,13 @@ namespace Forum.Tests
                         requestTypes = ThreadRequest.RequestTypes.AddComment;
                         if (httpRequest.form != null)
                         {
-                            if (httpRequest.form.UrlEncode.messages.Any(n => n.name == "content") && thread != null)
+                            if (httpRequest.form.UrlEncode.messages.Any(n => n.name == "content" && n.value != null && n.value.Length > 0) && thread != null)
                             {
                                 return new ThreadRequest(ThreadRequest.RequestTypes.AddComment, thread, httpRequest.form.UrlEncode.messages.FirstOrDefault(n => n.name == "content").value, user);
+                            }
+                            else if (thread != null)
+                            {
+                                return new ThreadRequest(ThreadRequest.RequestTypes.InvalidComment, thread, user);
                             }
                             else
                             {
@@ -385,8 +393,32 @@ namespace Forum.Tests
         static HtmlDocument GetMainPage(Forum2.Items.User curUser, bool admin = false)
         {
             HtmlDocument doc = new HtmlDocument();
-            doc.LoadHtml("<html style=\"font-family: arial;\"><head /><body style=\"background-image: url('/content&1')\" /></html>");
+            doc.LoadHtml("<html style=\"font-family: arial;\"><head /><body style=\"background-image: url('/content&1'); background-repeat: no-repeat;\" /></html>");
             
+            var body = doc.DocumentNode.Descendants().First(n => n.Name == "body");
+
+            HtmlNode currentUser = HtmlNode.CreateNode("<p style=\"text-align: right; \" />");
+            if (curUser == User.Anonymous)
+            {
+                currentUser.AppendChild(HtmlNode.CreateNode("<a href=\"/login\">Login</a> "));
+                currentUser.AppendChild(HtmlNode.CreateNode($"<strong> anonymous</strong>"));
+            }
+            else
+            {
+                currentUser.AppendChild(HtmlTextNode.CreateNode($"<strong>{curUser.username}</strong>"));
+            }
+            body.AppendChild(styles);
+            body.AppendChild(currentUser);
+            body.AppendChild(ToMainPage);
+            body.AppendChild(GetAddThread());
+            body.AppendChild(GetThreads(curUser, admin));
+            return doc;
+        }
+
+        static HtmlDocument GetThreadPage(Thread thread, User curUser)
+        {
+            HtmlDocument doc = new HtmlDocument();
+            doc.LoadHtml("<html style=\"font-family: arial;\"><head /><body /></html>");
             var body = doc.DocumentNode.Descendants().First(n => n.Name == "body");
             HtmlNode currentUser = HtmlNode.CreateNode("<p style=\"text-align: right; \" />");
             if (curUser == User.Anonymous)
@@ -400,27 +432,7 @@ namespace Forum.Tests
             }
             body.AppendChild(styles);
             body.AppendChild(currentUser);
-            body.AppendChild(GetAddThread());
-            body.AppendChild(GetThreads(curUser, admin));
-            return doc;
-        }
-
-        static HtmlDocument GetThreadPage(Thread thread, User curUser)
-        {
-            HtmlDocument doc = new HtmlDocument();
-            doc.LoadHtml("<html style=\"font-family: arial;\"><head /><body /></html>");
-            var body = doc.DocumentNode.Descendants().First(n => n.Name == "body");
-            HtmlNode currentUser = HtmlNode.CreateNode("<p style=\"text-align: right; margin: 5px; \" />");
-            if (curUser == User.Anonymous)
-            {
-                currentUser.AppendChild(HtmlNode.CreateNode("<a href=\"/login\">Login</a> "));
-                currentUser.AppendChild(HtmlNode.CreateNode($"<strong> anonymous</strong>"));
-            }
-            else
-            {
-                currentUser.AppendChild(HtmlTextNode.CreateNode($"<strong>{curUser.username}</strong>"));
-            }
-            body.AppendChild(currentUser);
+            body.AppendChild(ToMainPage);
             body.AppendChild(GetHeader(thread));
             body.AppendChild(GetMessages(thread));
             body.AppendChild(GetAddComment(thread));
@@ -601,7 +613,7 @@ namespace Forum.Tests
                 HtmlNode authordiv = HtmlNode.CreateNode("<div style=\"display: inline-block; width: 50%;\" />");
                 HtmlNode authorp = HtmlNode.CreateNode("<p style=\"margin: 5px; \"/>");
                 HtmlNode author = HtmlNode.CreateNode("<strong />");
-                author.AppendChild(HtmlTextNode.CreateNode(hah.HtmlEncode(thread.author.username)));
+                author.AppendChild(HtmlTextNode.CreateNode(hah.HtmlEncode(message.Author.username)));
                 authorp.AppendChild(author);
                 authordiv.AppendChild(authorp);
 

@@ -3,4 +3,4 @@ c:\users\ian\source\repos\Forum2\Forum2\bin\Debug\Forum2.pdb
 c:\users\ian\source\repos\Forum2\Forum2\obj\Debug\Forum.csproj.CoreCompileInputs.cache
 c:\users\ian\source\repos\Forum2\Forum2\obj\Debug\Forum2.dll
 c:\users\ian\source\repos\Forum2\Forum2\obj\Debug\Forum2.pdb
-c:\users\ian\source\repos\Forum2\Forum2\obj\Debug\Forum.csprojResolveAssemblyReference.cache
+C:\Users\Ian\source\repos\Forum2\Forum2\obj\Debug\Forum.csprojResolveAssemblyReference.cache
